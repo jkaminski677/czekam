@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>czekam — medytacja muzyczna pieśni adwentowych</title>
+<meta name="description" content="czekam — medytacja muzyczna pieśni adwentowych oraz kompozycji własnych. Mały ptak. Wieczory wspólnej modlitwy: Dankowice, Kraków, Skoczów. Także w Wielkim Poście.">
+<style>
+  :root {
+    --bg: #050403;
+    --bg-soft: #0d0b09;
+    --card-border: rgba(255, 255, 255, .08);
+    --amber: #f5a94a;
+    --orange: #e0762c;
+    --gold: #d9b477;
+    --gold-dim: #8f7a58;
+    --cream: #f2ece1;
+    --text-dim: #a89c8a;
+    --sans: "Helvetica Neue", Helvetica, Arial, "Segoe UI", system-ui, sans-serif;
+    --serif: "Georgia", "Palatino Linotype", "Times New Roman", serif;
+    --script: "Segoe Script", "Brush Script MT", "Snell Roundhand", cursive;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: rgba(245, 169, 74, .3); color: #fff; }
+
+  .label {
+    font-size: .68rem;
+    letter-spacing: .38em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    font-weight: 500;
+  }
+
+  .num {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gold-dim);
+    font-size: .95rem;
+  }
+
+  /* ================= HERO ================= */
+
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(1.4rem, 3vw, 2.4rem) clamp(1.4rem, 5vw, 4rem);
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 50% 30% at 50% 92%, rgba(230, 130, 40, .18) 0%, rgba(150, 82, 26, .07) 45%, transparent 72%),
+      var(--bg);
+  }
+
+  /* --- real candle photograph as backdrop --- */
+  /* save the cleaned poster photo as "swieca.jpg" next to index.html */
+  .hero-photo {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    opacity: .2;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* readability veils over the photo */
+  .hero-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(5, 4, 3, .88) 0%, rgba(5, 4, 3, .45) 32%, rgba(5, 4, 3, .28) 55%, rgba(5, 4, 3, .72) 100%),
+      radial-gradient(ellipse 100% 85% at 50% 45%, transparent 55%, rgba(0, 0, 0, .45) 100%);
+    pointer-events: none;
+  }
+
+  .hero-top {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hero-brand {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    color: var(--gold);
+  }
+
+  .hero-brand svg { width: 34px; height: auto; }
+
+  .hero-brand span {
+    font-family: var(--script);
+    font-size: 1.05rem;
+    letter-spacing: .02em;
+  }
+
+  .hero-year { font-size: .72rem; letter-spacing: .3em; color: var(--text-dim); }
+
+  .hero-main {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 68rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2.5rem 0;
+  }
+
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .hero-kicker::before,
+  .hero-kicker::after {
+    content: "";
+    width: 2.4rem;
+    height: 1px;
+    background: var(--gold-dim);
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(4rem, 13vw, 9.5rem);
+    line-height: .95;
+    letter-spacing: -.015em;
+    color: var(--cream);
+    text-shadow: 0 2px 30px rgba(0, 0, 0, .85), 0 0 80px rgba(240, 150, 60, .18);
+  }
+
+  .hero-sub {
+    max-width: 32rem;
+    margin-top: 1.6rem;
+    color: var(--text-dim);
+    font-size: clamp(.92rem, 1.6vw, 1.05rem);
+    line-height: 1.9;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, .8);
+  }
+
+  .hero-sub strong { color: var(--gold); font-weight: 500; }
+
+  .hero-spacer {
+    /* keeps visual breathing room over the candle photo at the bottom */
+    flex: 0 0 clamp(6rem, 16vh, 12rem);
+  }
+
+  .hero-bottom {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    padding-top: 1.2rem;
+    font-size: .7rem;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .hero-bottom a { color: var(--gold); text-decoration: none; transition: color .25s; }
+  .hero-bottom a:hover { color: var(--amber); }
+
+  /* ================= SECTIONS ================= */
+
+  .section { 
+    position: relative;
+    padding: clamp(5rem, 12vh, 8.5rem) clamp(1.4rem, 5vw, 4rem); }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: clamp(2.5rem, 6vh, 4rem);
+    flex-wrap: wrap;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--cream);
+  }
+
+  .schedule {
+    background: var(--bg-soft); }
+
+  .wrap { max-width: 72rem; margin: 0 auto; }
+
+  .events {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--card-border);
+    border: 1px solid var(--card-border);
+  }
+
+  .event {
+    background: var(--bg-soft);
+    padding: clamp(1.8rem, 3.5vw, 2.8rem);
+    display: flex;
+    flex-direction: column;
+    min-height: 20rem;
+    transition: background .35s ease;
+  }
+
+  .event:hover { background: #131009; }
+
+  .event-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: auto;
+  }
+
+  .event-date {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    color: var(--amber);
+    line-height: 1.15;
+    margin-top: 2rem;
+  }
+
+  .event-time {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: 1.4rem;
+    font-size: .82rem;
+    letter-spacing: .22em;
+    color: var(--gold);
+  }
+
+  .event-time::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 8px 2px rgba(245, 169, 74, .5);
+  }
+
+  .event-venue {
+    margin-top: 1.6rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(255, 255, 255, .07);
+    font-size: 1.02rem;
+    color: var(--cream);
+    line-height: 1.5;
+  }
+
+  .event-artists {
+    margin-top: 1rem;
+    font-size: .86rem;
+    line-height: 1.9;
+    color: var(--text-dim);
+  }
+
+  .event-artists b {
+    display: block;
+    font-weight: 500;
+    font-size: .64rem;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: .5rem;
+  }
+
+  /* ================= LENT — ANNOUNCEMENT ================= */
+
+  .lent {
+    position: relative;
+    padding: clamp(4.5rem, 11vh, 7.5rem) clamp(1.4rem, 5vw, 4rem);
+    text-align: center;
+    background:
+      radial-gradient(ellipse 60% 55% at 50% 115%, rgba(180, 95, 30, .12) 0%, transparent 65%),
+      var(--bg);
+    border-top: 1px solid rgba(217, 180, 119, .18);
+    border-bottom: 1px solid rgba(217, 180, 119, .18);
+    overflow: hidden;
+  }
+
+  .lent-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: 2rem;
+    padding: .55rem 1.3rem;
+    border: 1px solid rgba(217, 180, 119, .4);
+    border-radius: 999px;
+    font-size: .68rem;
+    letter-spacing: .34em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(217, 180, 119, .05);
+  }
+
+  .lent-badge::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 10px 2px rgba(245, 169, 74, .55);
+  }
+
+  .lent-title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(2.2rem, 6.5vw, 4.2rem);
+    line-height: 1.2;
+    color: var(--cream);
+    max-width: 46rem;
+    margin: 0 auto;
+  }
+
+  .lent-title em {
+    font-style: italic;
+    color: var(--amber);
+    text-shadow: 0 0 40px rgba(240, 150, 60, .25);
+  }
+
+  .lent-text {
+    max-width: 36rem;
+    margin: 1.8rem auto 0;
+    color: var(--text-dim);
+    font-size: clamp(.92rem, 1.5vw, 1.02rem);
+    line-height: 2;
+  }
+
+  .lent-soon {
+    display: inline-block;
+    margin-top: 2.2rem;
+    font-size: .72rem;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    padding-bottom: .4rem;
+    border-bottom: 1px solid rgba(217, 180, 119, .3);
+  }
+
+  /* ================= ABOUT / BRAND ================= */
+
+  .brand {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dove-mark {
+    width: 104px;
+    height: auto;
+    filter: drop-shadow(0 0 16px rgba(217, 180, 119, .18));
+  }
+
+  .brand-script {
+    font-family: var(--script);
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
+    color: var(--gold);
+    margin-top: 1rem;
+  }
+
+  .brand-note {
+    max-width: 34rem;
+    margin-top: 1.2rem;
+    color: var(--text-dim);
+    font-size: .95rem;
+    line-height: 1.9;
+  }
+
+  .brand-note em { font-family: var(--serif); color: var(--gold); }
+
+  /* ================= PERFORMERS ================= */
+
+  .performers { background: var(--bg-soft); }
+
+  .people {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--card-border);
+    border: 1px solid var(--card-border);
+    max-width: 62rem;
+    margin: 0 auto;
+  }
+
+  .person {
+    background: var(--bg-soft);
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    text-align: center;
+    transition: background .35s ease;
+  }
+
+  .person:hover { background: #131009; }
+
+  .person-name {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--cream);
+  }
+
+  .person-role {
+    margin-top: .6rem;
+    font-size: .64rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  /* ================= FOOTER ================= */
+
+  footer {
+    border-top: 1px solid rgba(255, 255, 255, .07);
+    padding: 2.4rem clamp(1.4rem, 5vw, 4rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-left { display: flex; align-items: center; gap: .6rem; color: var(--gold-dim); }
+  .footer-left svg { width: 26px; height: auto; }
+  .footer-left span { font-family: var(--script); font-size: .95rem; }
+
+  .footer-center { font-size: .68rem; letter-spacing: .3em; text-transform: uppercase; color: var(--text-dim); }
+
+  .footer-right { font-size: .72rem; color: #5d5244; }
+
+  @media (max-width: 720px) {
+    .hero-bottom span:nth-child(2) { display: none; }
+    .hero-photo { object-position: 60% 70%; }
+    .event { min-height: 0; }
+    footer { justify-content: center; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="start">
+
+  <img class="hero-photo" src="candle.png" alt="">
+  <div class="hero-veil"></div>
+
+  <div class="hero-top">
+    <div class="hero-brand">
+      <!-- <svg viewBox="0 0 120 80" aria-hidden="true">
+        <g fill="none" stroke="#d9b477" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 52 C30 40, 52 30, 72 34 C82 36, 90 33, 97 26 L94 37 C100 39, 106 44, 108 50 C102 48, 96 48, 91 50 C86 58, 76 63, 64 62 C46 60, 28 58, 14 52 Z"/>
+          <path d="M50 34 C56 24, 68 18, 80 22 C74 26, 69 30, 66 34"/>
+          <path d="M12 50 C10 54, 8 58, 9 62 C14 60, 18 57, 21 54"/>
+        </g>
+      </svg> -->
+      <img src="ptak.png" alt="Logo" style="height: 34px; width: auto;">
+      <span>mały ptak</span>
+    </div>
+    <p class="hero-year">Adwent · 2026</p>
+  </div>
+
+  <div class="hero-main">
+    <p class="hero-kicker label">Wieczory wspólnej modlitwy</p>
+    <h1 class="hero-title">czekam</h1>
+    <p class="hero-sub">
+      Medytacja muzyczna <strong>pieśni adwentowych</strong>
+      oraz <strong>kompozycji własnych</strong>.
+      Muzycy prowadzą wspólną modlitwę —
+      w Dankowicach, Krakowie i Skoczowie.
+    </p>
+  </div>
+
+  <!-- <div class="hero-spacer" aria-hidden="true"></div> -->
+
+  <div class="hero-bottom">
+    <a href="#wydarzenia">Terminy ↓</a>
+    <span>Medytacja muzyczna pieśni adwentowych</span>
+    <span>mały ptak</span>
+  </div>
+</header>
+
+<!-- ================= SCHEDULE ================= -->
+<section class="section schedule" id="wydarzenia">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="section-title">Wieczory adwentowe</h2>
+      <p class="label">Modlitwa · śpiew · cisza</p>
+    </div>
+
+    <div class="events">
+
+      <article class="event">
+        <div class="event-top">
+          <p class="num">Wieczór I</p>
+          <p class="label">Dankowice</p>
+        </div>
+        <h3 class="event-date">29 listopada<br>niedziela</h3>
+        <p class="event-time">17:00</p>
+        <div>
+          <p class="event-venue">Bielsko-Biała Złote Łany</p>
+          <p class="event-artists"><b>Modlitwę prowadzą</b>Ewelina Kwoczyńska<br>Jan Kamiński</p>
+        </div>
+      </article>
+
+      <article class="event">
+        <div class="event-top">
+          <p class="num">Wieczór II</p>
+          <p class="label">Kraków</p>
+        </div>
+        <h3 class="event-date">6 grudnia<br>niedziela</h3>
+        <p class="event-time">19:00</p>
+        <div>
+          <p class="event-venue">Kraków</p>
+          <p class="event-artists"><b>Modlitwę prowadzą</b>Ewelina Kwoczyńska<br>Jan Kamiński<br>Bartłomiej Piwowarczyk<br>Zofia Spisak</p>
+        </div>
+      </article>
+
+      <article class="event">
+        <div class="event-top">
+          <p class="num">Wieczór III</p>
+          <p class="label">Skoczów</p>
+        </div>
+        <h3 class="event-date">11 grudnia<br>piątek</h3>
+        <p class="event-time">19:00</p>
+        <div>
+          <p class="event-venue">Parafia pw. św. Ap. Piotra i&nbsp;Pawła w&nbsp;Skoczowie</p>
+          <p class="event-artists"><b>Modlitwę prowadzą</b>Ewelina Kwoczyńska<br>Jan Kamiński</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= LENT — ANNOUNCEMENT ================= -->
+<section class="lent" id="wielki-post">
+  <p class="lent-badge">Także w Wielkim Poście</p>
+  <h2 class="lent-title">
+    «czekam» nie kończy się z adwentem —<br>
+    wraca w <em>Wielkim Poście</em>
+  </h2>
+  <p class="lent-text">
+    Projekt «czekam» tworzy również w okresie Wielkiego Postu — wtedy także
+    prowadzi wieczory wspólnej modlitwy. Szczegóły i terminy wielkopostnych
+    spotkań opublikujemy już przed rozpoczęciem Postu.
+  </p>
+  <p class="lent-soon">Terminy wkrótce</p>
+</section>
+
+<!-- ================= ABOUT / BRAND ================= -->
+<section class="section brand" id="projekt">
+  <img src="ptak.png" alt="Logo" style="height: 84px; width: auto;">
+  <p class="brand-script">mały ptak</p>
+  <p class="brand-note">
+    <em>Czekam</em> to nie koncert — to wspólna modlitwa, którą prowadzą muzycy.
+    Pieśni adwentowe przeplatają się z kompozycjami własnymi, a wszystko odbywa się
+    w ciszy i półmroku. Przychodzimy, by razem zatrzymać się
+    i po prostu… czekać.
+  </p>
+</section>
+
+<!-- ================= PERFORMERS ================= -->
+<section class="section performers" id="prowadzacy">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="section-title">Prowadzący modlitwę</h2>
+      <p class="label">Muzycy projektu «czekam»</p>
+    </div>
+
+    <div class="people">
+      <div class="person">
+        <p class="person-name">Ewelina Kwoczyńska</p>
+        <p class="person-role">Wszystkie wieczory</p>
+      </div>
+      <div class="person">
+        <p class="person-name">Jan Kamiński</p>
+        <p class="person-role">Wszystkie wieczory</p>
+      </div>
+      <div class="person">
+        <p class="person-name">Bartłomiej Piwowarczyk</p>
+        <p class="person-role">Wieczór II — Kraków</p>
+      </div>
+      <div class="person">
+        <p class="person-name">Zofia Spisak</p>
+        <p class="person-role">Wieczór II — Kraków</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="footer-left">
+    <!-- <svg viewBox="0 0 120 80" aria-hidden="true">
+      <g fill="none" stroke="#8f7a58" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 52 C30 40, 52 30, 72 34 C82 36, 90 33, 97 26 L94 37 C100 39, 106 44, 108 50 C102 48, 96 48, 91 50 C86 58, 76 63, 64 62 C46 60, 28 58, 14 52 Z"/>
+        <path d="M50 34 C56 24, 68 18, 80 22 C74 26, 69 30, 66 34"/>
+        <path d="M12 50 C10 54, 8 58, 9 62 C14 60, 18 57, 21 54"/>
+      </g>
+    </svg> -->
+
+    <img src="ptak.png" alt="Logo" style="height: 34px; width: auto;">
+    <span>mały ptak</span>
+  </div>
+  <p class="footer-center">czekam · adwent i wielki post</p>
+  <p class="footer-right">Wspólna modlitwa prowadzona przez muzyków</p>
+</footer>
+
+</body>
+
+</html>
